@@ -156,7 +156,7 @@ class Feature(Entity):
             char=char,
             color=color,
             name=name,
-            blocks_movement=False
+            blocks_movement=False,
             render_order=RenderOrder.FEATURE
         )
 
