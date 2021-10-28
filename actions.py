@@ -116,7 +116,6 @@ class TakeStairsAction(Action):
 class ActionWithDirection(Action):
     def __init__(self, entity: Actor, dx: int, dy: int):
         super().__init__(entity)
-        print("action with direction initiated",dx, dy)
         self.dx = dx
         self.dy = dy
 
@@ -161,12 +160,10 @@ class InteractAction(ActionWithDirection):
 
         # if keypress is within allowable interactions, run interaction
         else:
-            print("IS INTERACTION TARGET HOSTILE?",self.engine.interaction_target.is_hostile)
             is_pending_player_action, target_response, interaction_options = self.engine.interaction_target.interact(self.engine.interaction_target.is_hostile,self.engine.player_interaction_counter,key)
             self.engine.player_interaction_counter+=1
             self.engine.message_log.add_message(target_response,color.yellow,clear_before=True)
             if interaction_options.keys():
-                print(reduce(lambda opt1, opt2: opt1 + opt2,map(lambda opt: opt.label+" "+interaction_options[opt],interaction_options)))
                 self.engine.message_log.add_message(reduce(lambda opt1, opt2: opt1 + "\n" + opt2,map(lambda opt: opt.label+". "+interaction_options[opt],interaction_options)), color.red)
             return is_pending_player_action, interaction_options
 
@@ -184,7 +181,6 @@ class MeleeAction(ActionWithDirection):
 
         attack_desc = f"{self.entity.name.capitalize()} attacks {target.name}"
         self.target_actor.ai.is_attacked()
-        print("IN ACTIONS - IS HOSTILE?",self.target_actor.is_hostile)
         if self.entity is self.engine.player:
             attack_color = color.player_atk
         else:
